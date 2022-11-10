@@ -9,7 +9,7 @@ $(function () {
   const minNumber = 1;
   let maxNumber = 10;
   let score = Math.floor(maxNumber / 2);
-  let totalScore = 110;
+  let totalScore = 0;
   let prevTotalScore = totalScore;
   let secretNumber = setSecretNumber(minNumber, maxNumber);
 
@@ -144,30 +144,70 @@ $(function () {
 
   let simpleAlgorithmSPU = 0.01;
   let simpleAlgorithmCount = 0;
-  let simpleAlgorithmPrice = 10;
-  const simpleAlgorithmPriceIncrease = 10;
+
+  let simpleAlgorithmBuyPrice = 10;
+  const simpleAlgorithmBuyPriceIncrease = 10;
+
+  let simpleAlgorithmUpgradePrice = 15;
+  const simpleAlgorithmUpgradePriceIncrease = 15;
 
   $(".simple-algorithm button.buy-item").click(function () {
     buySimpleAlgorithm();
   });
 
+  $(".simple-algorithm button.upgrade-it").click(function () {
+    upgradeSimpleAlgorithm();
+  });
+
+  $(".simple-algorithm button.sell-item").click(function () {
+    sellSimpleAlgorithm();
+  });
+
   function buySimpleAlgorithm() {
-    if (totalScore >= simpleAlgorithmPrice) {
-      totalScore -= simpleAlgorithmPrice;
+    if (totalScore >= simpleAlgorithmBuyPrice) {
+      totalScore -= simpleAlgorithmBuyPrice;
       simpleAlgorithmCount++;
-      simpleAlgorithmPrice =
-        simpleAlgorithmCount * simpleAlgorithmPriceIncrease +
-        simpleAlgorithmPriceIncrease;
+      simpleAlgorithmBuyPrice =
+        simpleAlgorithmCount * simpleAlgorithmBuyPriceIncrease +
+        simpleAlgorithmBuyPriceIncrease;
       updateSimpleAlgorithmInfo();
     } else {
       $(".simple-algorithm button.buy-item").shake();
     }
   }
 
+  function upgradeSimpleAlgorithm() {
+    if (totalScore >= simpleAlgorithmUpgradePrice && simpleAlgorithmCount > 0) {
+      totalScore -= simpleAlgorithmUpgradePrice;
+      simpleAlgorithmSPU += 0.01;
+      simpleAlgorithmUpgradePrice += simpleAlgorithmUpgradePriceIncrease;
+      updateSimpleAlgorithmInfo();
+    } else {
+      $(".simple-algorithm button.upgrade-it").shake();
+    }
+  }
+
+  function sellSimpleAlgorithm() {
+    if (simpleAlgorithmCount > 0) {
+      totalScore += simpleAlgorithmBuyPrice - simpleAlgorithmBuyPriceIncrease;
+      simpleAlgorithmCount--;
+      simpleAlgorithmBuyPrice =
+        simpleAlgorithmCount * simpleAlgorithmBuyPriceIncrease +
+        simpleAlgorithmBuyPriceIncrease;
+      updateSimpleAlgorithmInfo();
+    } else {
+      $(".simple-algorithm button.sell-item").shake();
+    }
+  }
+
   function updateSimpleAlgorithmInfo() {
     $(".simple-algorithm span.count").text(simpleAlgorithmCount);
-    $(".simple-algorithm button.price").text(simpleAlgorithmPrice);
-    $(".simple-algorithm .buy-price").text(simpleAlgorithmPrice);
+    $(".simple-algorithm button.price").text(simpleAlgorithmBuyPrice);
+    $(".simple-algorithm .buy-price").text(simpleAlgorithmBuyPrice);
+    $(".simple-algorithm .upgrade-price").text(simpleAlgorithmUpgradePrice);
+    $(".simple-algorithm .sell-price").text(
+      simpleAlgorithmBuyPrice - simpleAlgorithmBuyPriceIncrease
+    );
     $(".simple-algorithm .total-sps").text(
       simpleAlgorithmSPU * simpleAlgorithmCount
     );
