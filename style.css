@@ -245,3 +245,7 @@ p.message {
 .btn.sell-item:hover {
   color: #ab263a;
 }
+
+.invalid {
+  background-color: #ab263a;
+}

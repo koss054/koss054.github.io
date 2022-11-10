@@ -147,13 +147,17 @@ $(function () {
   let simpleAlgorithmPrice = 10;
 
   $(".simple-algorithm button.buy-item").click(function () {
-    console.log("buy 1 simple algorithm");
     buySimpleAlgorithm();
   });
 
   function buySimpleAlgorithm() {
-    simpleAlgorithmCount++;
-    simpleAlgorithmPrice += simpleAlgorithmPrice * simpleAlgorithmCount;
+    if (totalScore >= simpleAlgorithmPrice) {
+      totalScore -= simpleAlgorithmPrice;
+      simpleAlgorithmCount++;
+      simpleAlgorithmPrice += simpleAlgorithmPrice * simpleAlgorithmCount;
+    } else {
+      $(".simple-algorithm button.buy-item").shake();
+    }
   }
 
   function totalScoreIncreaseSimpleAlgorithm() {
@@ -170,3 +174,31 @@ $(function () {
     updateUpgradeTabCurrency();
   }, 100);
 });
+
+// ****************
+// jQuery Functions
+// ****************
+
+$.fn.shake = function (interval = 100) {
+  this.addClass("shaking");
+  this.css("transition", "all " + (interval / 100).toString() + "s");
+  setTimeout(() => {
+    this.css("transform", "translateX(-50%)");
+  }, interval * 0);
+  setTimeout(() => {
+    this.css("transform", "translateX(50%)");
+  }, interval * 1);
+  setTimeout(() => {
+    this.css("transform", "translateX(-25%)");
+  }, interval * 2);
+  setTimeout(() => {
+    this.css("transform", "translateX(25%)");
+  }, interval * 3);
+  setTimeout(() => {
+    this.css("transform", "translateX(-7%)");
+  }, interval * 4);
+  setTimeout(() => {
+    this.css("transform", "translateX(0%)");
+  }, interval * 5);
+  this.removeClass("shaking");
+};
