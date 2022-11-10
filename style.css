@@ -80,6 +80,10 @@ p.message {
   color: cornflowerblue;
 }
 
+.hidden {
+  display: none;
+}
+
 .number {
   background: #eee;
   color: #333;
@@ -133,7 +137,7 @@ p.message {
 
 .btn.upgrade {
   position: absolute;
-  right: 4rem;
+  right: 5rem;
   top: 5rem;
   padding: 1rem 2rem;
 }
