@@ -13,20 +13,17 @@ $(function () {
   let prevTotalScore = totalScore;
   let secretNumber = setSecretNumber(minNumber, maxNumber);
 
-  // Displaying the initial values depending on the variables we created
-  setValuesOnPage(minNumber, maxNumber, score, totalScore);
+  // Display initial values.
+  setValuesOnPage();
 
   // Functionality for the button Again! that appears after the user runs out of their current score or if they guess correctly.
   $(".btn.again").click(function () {
     score = Math.floor(maxNumber / 2);
     resetScreen();
-    setValuesOnPage(minNumber, maxNumber, score, totalScore);
   });
 
   // Functionality for the button Check! that is under the input field.
   $(".btn.check").click(function () {
-    setValuesOnPage(minNumber, maxNumber, score, totalScore);
-
     let guess = $(".guess").val();
     let guessMessage = $(".message");
 
@@ -37,14 +34,12 @@ $(function () {
       // Updates the score and total score on the screen.
       // Generates a new secret number.
     } else {
-      updateOnClick(secretNumber, guess, guessMessage, score, totalScore);
-      score = getScore();
-      totalScore = getTotalScore();
+      updateOnClick(guess, guessMessage);
 
       if (score == 0) {
         outOfScore();
         guessMessage.text("⛔ Try again! Changing number...");
-        secretNumber = setSecretNumber(minNumber, maxNumber);
+        secretNumber = setSecretNumber();
       }
     }
 
@@ -60,37 +55,29 @@ $(function () {
   // ***********************
   // Page and game functions
   // ***********************
-  function setSecretNumber(min, max) {
-    return Math.floor(Math.random() * max) + min;
+  function setSecretNumber() {
+    return Math.floor(Math.random() * maxNumber) + minNumber;
   }
 
-  function setBetweenRange(min, max) {
-    $(".between").text(`(Between ${min} and ${max})`);
-  }
-
-  function getScore() {
-    return Number($(".score").text());
+  function setBetweenRange() {
+    $(".between").text(`(Between ${minNumber} and ${maxNumber})`);
   }
 
   function setScore(score) {
     $(".score").text(`${score}`);
   }
 
-  function getTotalScore() {
-    return Number($(".total-score").text());
-  }
-
   function setTotalScore(totalScore) {
     $(".total-score").text(`${totalScore}`);
   }
 
-  function setValuesOnPage(min, max, score, totalScore) {
-    setBetweenRange(min, max);
+  function setValuesOnPage() {
+    setBetweenRange(minNumber, maxNumber);
     setScore(score);
-    setTotalScore(totalScore);
+    setTotalScore(totalScore.toFixed(0));
   }
 
-  function updateOnClick(secretNumber, guess, guessMessage, score, totalScore) {
+  function updateOnClick(guess, guessMessage) {
     if (guess == secretNumber) {
       guessedNumber(secretNumber);
       guessMessage.html("✅ You guessed the number! Changing number...");
@@ -102,9 +89,6 @@ $(function () {
       guessMessage.html("👇 Too low...");
       score--;
     }
-
-    setScore(score);
-    setTotalScore(totalScore);
   }
 
   function guessedNumber(secretNumber) {
@@ -131,9 +115,11 @@ $(function () {
     $(".message").html("Start guessing...");
   }
 
-  // **************************
-  // Upgrade tab functionality
-  // **************************
+  // ******************************************************
+  // Upgrade tab functionality - SPU means Score Per Update
+  // ******************************************************
+
+  // Need to make the items into classes and use OOP
   $(".btn.upgrade").click(function () {
     toggleUpgradeTab();
   });
@@ -146,8 +132,41 @@ $(function () {
     toggleUpgradeTab();
   });
 
+  function updateUpgradeTabCurrency() {
+    $(".currency").text(totalScore.toFixed(1));
+  }
+
   function toggleUpgradeTab() {
     $(".upgrade-tab").toggleClass("hidden");
     $(".overlay").toggleClass("hidden");
+    updateUpgradeTabCurrency();
   }
+
+  let simpleAlgorithmSPU = 0.01;
+  let simpleAlgorithmCount = 0;
+  let simpleAlgorithmPrice = 10;
+
+  $(".simple-algorithm button.buy-item").click(function () {
+    console.log("buy 1 simple algorithm");
+    buySimpleAlgorithm();
+  });
+
+  function buySimpleAlgorithm() {
+    simpleAlgorithmCount++;
+    simpleAlgorithmPrice += simpleAlgorithmPrice * simpleAlgorithmCount;
+  }
+
+  function totalScoreIncreaseSimpleAlgorithm() {
+    totalScore += Number(simpleAlgorithmCount * simpleAlgorithmSPU);
+  }
+
+  // *********
+  // Intervals
+  // *********
+
+  setInterval(function () {
+    totalScoreIncreaseSimpleAlgorithm();
+    setValuesOnPage();
+    updateUpgradeTabCurrency();
+  }, 100);
 });
