@@ -1,5 +1,8 @@
 "use strict";
 
+// **********************************************
+// Main page functionality, variables and updates
+// **********************************************
 // Shorthand for document ready with jQuery
 $(function () {
   // Variables used throughout the game
@@ -54,6 +57,9 @@ $(function () {
     }
   });
 
+  // ***********************
+  // Page and game functions
+  // ***********************
   function setSecretNumber(min, max) {
     return Math.floor(Math.random() * max) + min;
   }
@@ -123,5 +129,25 @@ $(function () {
     $(".btn.check").css({ display: "inline-block" });
     $(".number").text("?");
     $(".message").html("Start guessing...");
+  }
+
+  // **************************
+  // Upgrade tab functionality
+  // **************************
+  $(".btn.upgrade").click(function () {
+    toggleUpgradeTab();
+  });
+
+  $(".overlay").click(function () {
+    toggleUpgradeTab();
+  });
+
+  $(".close-upgrade").click(function () {
+    toggleUpgradeTab();
+  });
+
+  function toggleUpgradeTab() {
+    $(".upgrade-tab").toggleClass("hidden");
+    $(".overlay").toggleClass("hidden");
   }
 });

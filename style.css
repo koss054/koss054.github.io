@@ -142,6 +142,12 @@ p.message {
   padding: 1rem 2rem;
 }
 
+.btn.close-upgrade {
+  position: absolute;
+  right: 2rem;
+  top: 2rem;
+}
+
 .message {
   margin-bottom: 8rem;
   height: 3rem;
@@ -149,4 +155,90 @@ p.message {
 
 .label-score {
   margin-bottom: 2rem;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+  z-index: 5;
+}
+
+.upgrade-tab {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  height: 90%;
+  background-color: #222;
+  padding: 6rem;
+  padding-top: 30px;
+  border-radius: 5px;
+  box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+
+.upgrade-item {
+  border: 4px solid #eee;
+  padding: 2rem;
+  width: 80%;
+  height: 13rem;
+}
+
+.upgrade-currency {
+  font-size: 3rem;
+  margin-bottom: 5rem;
+}
+
+.currency {
+  position: absolute;
+  left: 12rem;
+  top: 38px;
+}
+
+.item-name {
+  margin-bottom: 1rem;
+}
+
+.item-description {
+  font-size: 12px;
+  line-height: 2rem;
+}
+
+.item-button {
+  display: flex;
+}
+
+.price-symbol {
+  font-size: 2rem;
+}
+
+.btn.buy-item {
+  width: 30%;
+  height: 9rem;
+  font-size: 13px;
+}
+
+.btn.upgrade-it {
+  width: 30%;
+  height: 9rem;
+  font-size: 13px;
+}
+
+.btn.sell-item {
+  width: 20%;
+  height: 9rem;
+  font-size: 13px;
+}
+
+hr.currency-seperator {
+  margin: 1rem;
+  border-radius: 5px;
+  height: 3px;
+  background-color: lightgray;
 }
