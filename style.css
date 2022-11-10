@@ -131,6 +131,13 @@ p.message {
   background-color: #ccc;
 }
 
+.btn.upgrade {
+  position: absolute;
+  right: 4rem;
+  top: 5rem;
+  padding: 1rem 2rem;
+}
+
 .message {
   margin-bottom: 8rem;
   height: 3rem;
