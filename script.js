@@ -1,6 +1,8 @@
 "use strict";
 
+// Shorthand for document ready with jQuery
 $(function () {
+  // Variables used throughout the game
   const minNumber = 1;
   let maxNumber = 10;
   let score = Math.floor(maxNumber / 2);
@@ -8,23 +10,19 @@ $(function () {
   let prevTotalScore = totalScore;
   let secretNumber = setSecretNumber(minNumber, maxNumber);
 
-  setBetweenRange(minNumber, maxNumber);
-  setScore(score);
-  setTotalScore(totalScore);
+  // Displaying the initial values depending on the variables we created
+  setValuesOnPage(minNumber, maxNumber, score, totalScore);
 
+  // Functionality for the button Again! that appears after the user runs out of their current score or if they guess correctly.
   $(".btn.again").click(function () {
     score = Math.floor(maxNumber / 2);
-
     resetScreen();
-    setBetweenRange(minNumber, maxNumber);
-    setScore(score);
-    setTotalScore(totalScore);
+    setValuesOnPage(minNumber, maxNumber, score, totalScore);
   });
 
+  // Functionality for the button Check! that is under the input field.
   $(".btn.check").click(function () {
-    setBetweenRange(minNumber, maxNumber);
-    setScore(score);
-    setTotalScore(totalScore);
+    setValuesOnPage(minNumber, maxNumber, score, totalScore);
 
     let guess = $(".guess").val();
     let guessMessage = $(".message");
@@ -36,15 +34,7 @@ $(function () {
       // Updates the score and total score on the screen.
       // Generates a new secret number.
     } else {
-      updateOnClick(
-        secretNumber,
-        guess,
-        guessMessage,
-        score,
-        totalScore,
-        maxNumber
-      );
-
+      updateOnClick(secretNumber, guess, guessMessage, score, totalScore);
       score = getScore();
       totalScore = getTotalScore();
 
@@ -88,14 +78,13 @@ $(function () {
     $(".total-score").text(`${totalScore}`);
   }
 
-  function updateOnClick(
-    secretNumber,
-    guess,
-    guessMessage,
-    score,
-    totalScore,
-    max
-  ) {
+  function setValuesOnPage(min, max, score, totalScore) {
+    setBetweenRange(min, max);
+    setScore(score);
+    setTotalScore(totalScore);
+  }
+
+  function updateOnClick(secretNumber, guess, guessMessage, score, totalScore) {
     if (guess == secretNumber) {
       guessedNumber(secretNumber);
       guessMessage.html("✅ You guessed the number! Changing number...");
