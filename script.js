@@ -241,7 +241,6 @@ $(function () {
     totalScoreIncreaseSimpleAlgorithm();
     setValuesOnPage();
     updateUpgradeTabCurrency();
-    console.log(secretNumber);
   }, 100);
 });
 
