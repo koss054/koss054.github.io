@@ -10,20 +10,31 @@ $(function () {
   let maxNumber = 10;
   let score = Math.floor(maxNumber / 2);
   let totalScore = 0;
-  let prevTotalScore = totalScore;
   let secretNumber = setSecretNumber(minNumber, maxNumber);
+  let isGuessed = false;
 
   // Display initial values.
   setValuesOnPage();
 
   // Functionality for the button Again! that appears after the user runs out of their current score or if they guess correctly.
   $(".btn.again").click(function () {
-    score = Math.floor(maxNumber / 2);
-    resetScreen();
+    againClicked();
   });
 
   // Functionality for the button Check! that is under the input field.
   $(".btn.check").click(function () {
+    checkClicked();
+  });
+
+  // ***********************
+  // Page and game functions
+  // ***********************
+  function againClicked() {
+    score = Math.floor(maxNumber / 2);
+    resetScreen();
+  }
+
+  function checkClicked() {
     let guess = $(".guess").val();
     let guessMessage = $(".message");
 
@@ -42,19 +53,8 @@ $(function () {
         secretNumber = setSecretNumber();
       }
     }
+  }
 
-    // If the total score has increased the secret number needs to be changed.
-    // Generating a new number for the user to guess.
-    // The current score is added to the total score, which can be used in the upgrade tab.
-    if (totalScore > prevTotalScore) {
-      prevTotalScore = totalScore;
-      secretNumber = setSecretNumber(minNumber, maxNumber);
-    }
-  });
-
-  // ***********************
-  // Page and game functions
-  // ***********************
   function setSecretNumber() {
     return Math.floor(Math.random() * maxNumber) + minNumber;
   }
@@ -74,7 +74,7 @@ $(function () {
   function setValuesOnPage() {
     setBetweenRange(minNumber, maxNumber);
     setScore(score);
-    setTotalScore(totalScore.toFixed(0));
+    setTotalScore(totalScore.toFixed(1));
   }
 
   function updateOnClick(guess, guessMessage) {
@@ -82,6 +82,8 @@ $(function () {
       guessedNumber(secretNumber);
       guessMessage.html("✅ You guessed the number! Changing number...");
       totalScore += score;
+      secretNumber = setSecretNumber();
+      isGuessed = true;
     } else if (guess > secretNumber) {
       guessMessage.html("☝ Too high...");
       score--;
@@ -107,6 +109,7 @@ $(function () {
   }
 
   function resetScreen() {
+    isGuessed = false;
     $("body").css({ "background-color": "#222" });
     $(".number").css({ width: "15rem" });
     $(".btn.again").css({ display: "none" });
@@ -114,6 +117,19 @@ $(function () {
     $(".number").text("?");
     $(".message").html("Start guessing...");
   }
+
+  $("input").bind("enterKey", function (e) {
+    if (score > 0 && !isGuessed) {
+      checkClicked();
+    } else {
+      againClicked();
+    }
+  });
+  $("input").keyup(function (e) {
+    if (e.keyCode == 13) {
+      $(this).trigger("enterKey");
+    }
+  });
 
   // ******************************************************
   // Upgrade tab functionality - SPU means Score Per Update
@@ -142,7 +158,7 @@ $(function () {
     updateUpgradeTabCurrency();
   }
 
-  let simpleAlgorithmSPU = 0.01;
+  let simpleAlgorithmSPU = 0.001;
   let simpleAlgorithmCount = 0;
 
   let simpleAlgorithmBuyPrice = 10;
@@ -208,8 +224,8 @@ $(function () {
     $(".simple-algorithm .sell-price").text(
       simpleAlgorithmBuyPrice - simpleAlgorithmBuyPriceIncrease
     );
-    $(".simple-algorithm .total-sps").text(
-      simpleAlgorithmSPU * simpleAlgorithmCount
+    $(".simple-algorithm .current-sps").text(
+      (simpleAlgorithmSPU * simpleAlgorithmCount * 10).toFixed(1)
     );
   }
 
@@ -225,6 +241,7 @@ $(function () {
     totalScoreIncreaseSimpleAlgorithm();
     setValuesOnPage();
     updateUpgradeTabCurrency();
+    console.log(secretNumber);
   }, 100);
 });
 

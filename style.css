@@ -214,6 +214,7 @@ p.message {
   font-size: 12px;
   line-height: 2rem;
   margin-top: 1rem;
+  color: rgb(158, 158, 158);
 }
 
 .item-button {
