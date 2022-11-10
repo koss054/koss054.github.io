@@ -168,6 +168,9 @@ $(function () {
     $(".simple-algorithm span.count").text(simpleAlgorithmCount);
     $(".simple-algorithm button.price").text(simpleAlgorithmPrice);
     $(".simple-algorithm .buy-price").text(simpleAlgorithmPrice);
+    $(".simple-algorithm .total-sps").text(
+      simpleAlgorithmSPU * simpleAlgorithmCount
+    );
   }
 
   function totalScoreIncreaseSimpleAlgorithm() {
