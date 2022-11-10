@@ -9,7 +9,7 @@ $(function () {
   const minNumber = 1;
   let maxNumber = 10;
   let score = Math.floor(maxNumber / 2);
-  let totalScore = 0;
+  let totalScore = 110;
   let prevTotalScore = totalScore;
   let secretNumber = setSecretNumber(minNumber, maxNumber);
 
@@ -145,6 +145,7 @@ $(function () {
   let simpleAlgorithmSPU = 0.01;
   let simpleAlgorithmCount = 0;
   let simpleAlgorithmPrice = 10;
+  const simpleAlgorithmPriceIncrease = 10;
 
   $(".simple-algorithm button.buy-item").click(function () {
     buySimpleAlgorithm();
@@ -154,10 +155,19 @@ $(function () {
     if (totalScore >= simpleAlgorithmPrice) {
       totalScore -= simpleAlgorithmPrice;
       simpleAlgorithmCount++;
-      simpleAlgorithmPrice += simpleAlgorithmPrice * simpleAlgorithmCount;
+      simpleAlgorithmPrice =
+        simpleAlgorithmCount * simpleAlgorithmPriceIncrease +
+        simpleAlgorithmPriceIncrease;
+      updateSimpleAlgorithmInfo();
     } else {
       $(".simple-algorithm button.buy-item").shake();
     }
+  }
+
+  function updateSimpleAlgorithmInfo() {
+    $(".simple-algorithm span.count").text(simpleAlgorithmCount);
+    $(".simple-algorithm button.price").text(simpleAlgorithmPrice);
+    $(".simple-algorithm .buy-price").text(simpleAlgorithmPrice);
   }
 
   function totalScoreIncreaseSimpleAlgorithm() {
