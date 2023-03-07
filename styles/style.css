@@ -97,7 +97,7 @@ p.message {
   transform: translate(-50%, 50%);
 }
 
-.between {
+#between {
   font-size: 1.4rem;
   position: absolute;
   top: 2rem;
