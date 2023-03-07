@@ -1,99 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
-    <link rel="stylesheet" href="style.css" />
-    <title>Guess My Number!</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
-    <script
-      src="https://code.jquery.com/jquery-3.6.1.js"
-      integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
-      crossorigin="anonymous"
-    ></script>
-  </head>
+  <link rel="stylesheet" href="styles/style.css" />
+  <title>Guess My Number!</title>
 
-  <body>
-    <header>
-      <h1>Guess My Number!</h1>
-      <h3>tech<span class="t-logo">IE</span></h3>
-      <p class="between">(Between 1 and 20)</p>
-      <button class="btn upgrade">Upgrade</button>
-      <div class="number">?</div>
-    </header>
+  <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+    crossorigin="anonymous"></script>
+</head>
 
-    <main>
-      <div class="upgrade-tab hidden">
-        <button class="btn close-upgrade">X</button>
-        <p class="upgrade-currency">🥇 <span class="currency">0</span></p>
+<body>
+  <header>
+    <h1>Guess My Number!</h1>
+    <h3>tech<span class="t-logo">IE</span></h3>
+    <p class="between">(Between 1 and 20)</p>
+    <button class="btn upgrade">Upgrade</button>
+    <div class="number">?</div>
+  </header>
 
-        <div class="upgrade-item simple-algorithm">
-          
-          <div class="item">
-            <h2 class="item-name">Simple Algorithm</h3>
-              <span class="item-info">Owned: <span class="count">0</span> // Score Per Second: <span class="score-per-second">0.01</span> // Current SPS: <span class="current-sps">0.0</span></span>
+  <main>
+    <div class="upgrade-tab hidden">
+      <button class="btn close-upgrade">X</button>
+      <p class="upgrade-currency">🥇 <span class="currency">0</span></p>
+
+      <div class="upgrade-item simple-algorithm">
+
+        <div class="item">
+          <h2 class="item-name">Simple Algorithm</h3>
+            <span class="item-info">Owned: <span class="count">0</span> // Score Per Second: <span
+                class="score-per-second">0.01</span> // Current SPS: <span class="current-sps">0.0</span></span>
             <p class="item-description">
               Tired of guessing all the time? Get a simple algorithm and leave
               some of the guessing to it.
             </p>
-          </div>
-
-        </div>
-
-        <div class="item-button simple-algorithm">
-          <button class="btn buy-item">Buy <span class="amount">1</span> <span class="price-symbol">🥇</span><span class="buy-price">10</span></button>
-          <button class="btn upgrade-it">Upgrade It <span class="price-symbol">🥇</span><span class="upgrade-price">15</span></button></button>
-          <button class="btn sell-item">Sell <span class="amount">1</span> <span class="price-symbol">🥇</span><span class="sell-price">0</span></button></button>
-        </div>
-
-        <div class="upgrade-item">
-
-          <div class="item">
-            <h2 class="item-name">Freelance Guesser - IN DEVELOPMENT!</h3>
-            <p class="item-description">
-              Want some company while guessing? Hire someone to do the guessing with you. 
-            </p>
-          </div>
-
-        </div>
-
-        <div class="item-button">
-          <button class="btn buy-item">Buy <span class="amount">1</span> <span class="price-symbol">🥇</span><span class="price">10</span></button>
-          <button class="btn upgrade-it">Upgrade It <span class="price-symbol">🥇</span><span class="price">10</span></button></button>
-          <button class="btn sell-item">Sell <span class="amount">1</span> <span class="price-symbol">🥇</span><span class="price">10</span></button></button>
         </div>
 
       </div>
 
-      <div class="overlay hidden"></div>
+      <div class="item-button simple-algorithm">
+        <button class="btn buy-item">Buy <span class="amount">1</span> <span class="price-symbol">🥇</span><span
+            class="buy-price">10</span></button>
+        <button class="btn upgrade-it">Upgrade It <span class="price-symbol">🥇</span><span
+            class="upgrade-price">15</span></button></button>
+        <button class="btn sell-item">Sell <span class="amount">1</span> <span class="price-symbol">🥇</span><span
+            class="sell-price">0</span></button></button>
+      </div>
 
-      <section class="left">
-        <input type="number" class="guess" tabindex="1" />
-        <button class="btn check">Check!</button>
-        <button class="btn again">Again!</button>
-      </section>
+      <div class="upgrade-item">
 
-      <section class="right">
-        <p class="message">Start guessing...</p>
-        <p class="label-score">💯 Score: <span class="score">20</span></p>
-        <p class="label-total-score">
-          🥇 Total Score: <span class="total-score">0</span>
-        </p>
-      </section>
-    </main>
+        <div class="item">
+          <h2 class="item-name">Freelance Guesser - IN DEVELOPMENT!</h3>
+            <p class="item-description">
+              Want some company while guessing? Hire someone to do the guessing with you.
+            </p>
+        </div>
 
-    <footer>
-      <p class="credits-text">
-        Game inspired by a project in
-        <a href="https://www.udemy.com/user/jonasschmedtmann/"
-          >Jonas Schmedtmann's</a
-        >
-        JavaScript course.
+      </div>
+
+      <div class="item-button">
+        <button class="btn buy-item">Buy <span class="amount">1</span> <span class="price-symbol">🥇</span><span
+            class="price">10</span></button>
+        <button class="btn upgrade-it">Upgrade It <span class="price-symbol">🥇</span><span
+            class="price">10</span></button></button>
+        <button class="btn sell-item">Sell <span class="amount">1</span> <span class="price-symbol">🥇</span><span
+            class="price">10</span></button></button>
+      </div>
+
+    </div>
+
+    <div class="overlay hidden"></div>
+
+    <section class="left">
+      <input type="number" class="guess" tabindex="1" />
+      <button class="btn check">Check!</button>
+      <button class="btn again">Again!</button>
+    </section>
+
+    <section class="right">
+      <p class="message">Start guessing...</p>
+      <p class="label-score">💯 Score: <span class="score">20</span></p>
+      <p class="label-total-score">
+        🥇 Total Score: <span class="total-score">0</span>
       </p>
-    </footer>
+    </section>
+  </main>
 
-    <script src="script.js"></script>
-  </body>
+  <footer>
+    <p class="credits-text">
+      Game inspired by a project in
+      <a href="https://www.udemy.com/user/jonasschmedtmann/">Jonas Schmedtmann's</a>
+      JavaScript course.
+    </p>
+  </footer>
+
+  <script src="scripts/script.js"></script>
+</body>
+
 </html>
