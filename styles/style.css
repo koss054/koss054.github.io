@@ -160,6 +160,7 @@ p#message {
   text-align: center;
   display: block;
   margin-bottom: 1rem;
+  -webkit-appearance: none;
 }
 
 .btn {
