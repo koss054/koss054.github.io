@@ -1,53 +1,49 @@
-// Variables used throughout the page.
-function pageVariables() {
-  let minNumber = 1;
-  let maxNumber = 5;
-  let score = Math.floor(maxNumber / 2);
-  let totalScore = 0;
-  let secretNumber = Math.floor(Math.random() * maxNumber) + minNumber;
-  let isGuessed = false;
+// Player stats.
+class Player {
+  constructor() {
+    this.minNumber = 1;
+    this.maxNumber = 5;
 
-  return {
-    minNumber,
-    maxNumber,
-    score,
-    totalScore,
-    secretNumber,
-    isGuessed,
-  };
+    this.currentScore = Math.ceil(this.maxNumber / 2);
+    this.totalScore = 0.000001;
+
+    this.secretNumber =
+      Math.floor(Math.random() * this.maxNumber) + this.minNumber;
+    this.isGuessed = false;
+  }
+
+  resetScore() {
+    this.currentScore = Math.ceil(this.maxNumber / 2);
+  }
 }
-
-let vars = pageVariables();
 
 // Functions used in page functions.
-function setValuesOnPage() {
-  setBetweenRange();
-  setScore();
-  setTotalScore();
+function setValuesOnPage(player) {
+  setBetweenRange(player.minNumber, player.maxNumber);
+  setScore(player.currentScore);
+  setTotalScore(player.totalScore);
 }
 
-function setBetweenRange() {
+function setBetweenRange(minNumber, maxNumber) {
   document.getElementById(
     "between"
-  ).innerHTML = `(Between ${vars.minNumber} and ${vars.maxNumber})`;
+  ).innerHTML = `(Between ${minNumber} and ${maxNumber})`;
 }
 
-function setScore() {
-  document.getElementById("score").innerHTML = `${vars.score}`;
+function setScore(currentScore) {
+  document.getElementById("score").innerHTML = `${currentScore}`;
 }
 
-function setTotalScore() {
-  document.getElementById("total-score").innerHTML = `${vars.totalScore.toFixed(
-    1
-  )}`;
+function setTotalScore(totalScore) {
+  document.getElementById("total-score").innerHTML = `${totalScore.toFixed(1)}`;
 }
 
-function setSecretNumber() {
-  return Math.floor(Math.random() * vars.maxNumber) + vars.minNumber;
+function setSecretNumber(player) {
+  return Math.floor(Math.random() * player.maxNumber) + player.minNumber;
 }
 
-function resetScreen() {
-  pageVariables.isGuessed = false;
+function resetScreen(player) {
+  player.isGuessed = false;
   document.querySelector("body").style.background = "#222";
   document.querySelector(".number").style.width = "15rem";
   document.querySelector(".btn.again").style.display = "none";
@@ -56,20 +52,21 @@ function resetScreen() {
   document.querySelector("#message").innerHTML = "Start guessing...";
 }
 
-function updateOnClick(userGuess, guessMessageElement) {
-  if (userGuess == vars.secretNumber) {
-    guessedNumber(vars.secretNumber);
+function updateOnClick(player, playerGuess, guessMessageElement) {
+  console.log(player);
+  if (playerGuess == player.secretNumber) {
+    guessedNumber(player.secretNumber);
     guessMessageElement.innerHTML =
       "✅ You guessed the number! Changing number...";
-    vars.totalScore += vars.score;
-    vars.secretNumber = setSecretNumber();
-    vars.isGuessed = true;
-  } else if (userGuess > vars.secretNumber) {
+    player.totalScore += player.currentScore;
+    player.secretNumber = setSecretNumber(player);
+    player.isGuessed = true;
+  } else if (playerGuess > player.secretNumber) {
     guessMessageElement.innerHTML = "☝ Too high...";
-    vars.score--;
-  } else if (userGuess < vars.secretNumber) {
+    player.currentScore--;
+  } else if (playerGuess < player.secretNumber) {
     guessMessageElement.innerHTML = "👇 Too low...";
-    vars.score--;
+    player.currentScore--;
   }
 }
 
@@ -89,55 +86,56 @@ function outOfScore() {
 }
 
 // Page functions.
-const initialPageState = function () {
+const initialPageState = function (player) {
   // Function that sets all initial values.
-  setValuesOnPage(vars.minNumber, vars.maxNumber, vars.score, vars.totalScore);
+  setValuesOnPage(player);
 };
 
-const buttonEvents = function () {
+const buttonEvents = function (player) {
   // Button elements.
   const btnAgain = document.querySelector(".btn.again");
   const btnCheck = document.querySelector(".btn.check");
 
   // Button events.
   btnAgain.addEventListener("click", function () {
-    againClicked();
+    againClicked(player);
   });
 
   btnCheck.addEventListener("click", function () {
-    checkClicked();
+    checkClicked(player);
   });
 
   // Inner functions for buttons.
-  function againClicked() {
-    vars.score = Math.floor(vars.maxNumber / 2);
-    resetScreen();
+  function againClicked(player) {
+    player.currentScore = Math.ceil(player.maxNumber / 2);
+    resetScreen(player);
   }
 
-  function checkClicked() {
+  function checkClicked(player) {
     const userGuess = document.getElementById("guess").value;
     const guessMessage = document.getElementById("message");
 
     if (!userGuess) {
-      guessMessage.innerHTML = `⛔ Type a number between ${vars.minNumber} and ${vars.maxNumber}...`;
+      guessMessage.innerHTML = `⛔ Type a number between ${player.minNumber} and ${player.maxNumber}...`;
     } else {
-      updateOnClick(userGuess, guessMessage);
+      updateOnClick(player, userGuess, guessMessage);
 
-      if (vars.score == 0) {
+      if (player.currentScore == 0) {
         outOfScore();
         guessMessage.text("⛔ Try again! Changing number...");
-        vars.secretNumber = setSecretNumber(vars.minNumber, vars.maxNumber);
+        player.secretNumber = setSecretNumber(player);
       }
     }
   }
 };
 
+// Executing functions on the page.
+const player = new Player();
+
+initialPageState(player);
+buttonEvents(player);
+
 // Interval functions.
 setInterval(function () {
-  setValuesOnPage(vars.minNumber, vars.maxNumber, vars.score, vars.totalScore);
-  console.log(vars.score);
+  setValuesOnPage(player);
 }, 100);
-
-// Executing functions on the page.
-initialPageState();
-buttonEvents();
