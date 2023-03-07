@@ -7,6 +7,8 @@ class Player {
     this.currentScore = Math.ceil(this.maxNumber / 2);
     this.totalScore = 0.000001;
 
+    // TODO: Make secret number private to it can't be taken from the dev console.
+    // Easy fix but rn I'm too lazy to update it ;D
     this.secretNumber =
       Math.floor(Math.random() * this.maxNumber) + this.minNumber;
     this.isGuessed = false;
@@ -97,6 +99,7 @@ const buttonEvents = function (player, page) {
   // Button elements.
   const btnAgain = document.querySelector(".btn.again");
   const btnCheck = document.querySelector(".btn.check");
+  const btnUpgrade = document.querySelector(".btn.upgrade");
 
   // Button events.
   btnAgain.addEventListener("click", function () {
@@ -105,6 +108,10 @@ const buttonEvents = function (player, page) {
 
   btnCheck.addEventListener("click", function () {
     checkClicked(player, page);
+  });
+
+  btnUpgrade.addEventListener("click", function () {
+    toggleUpgradeTab(player);
   });
 
   // Inner functions for buttons.
@@ -132,12 +139,40 @@ const buttonEvents = function (player, page) {
   }
 };
 
+// Upgrade tab function.
+const upgradeTabEvents = function (player) {
+  const upgradeOverlay = document.querySelector(".overlay");
+  const closeUpgradeTab = document.querySelector(".close-upgrade");
+
+  upgradeOverlay.addEventListener("click", function () {
+    toggleUpgradeTab(player);
+  });
+
+  closeUpgradeTab.addEventListener("click", function () {
+    toggleUpgradeTab(player);
+  });
+};
+
+// Global functions.
+function toggleUpgradeTab(player) {
+  document.querySelector(".upgrade-tab").classList.toggle("hidden");
+  document.querySelector(".overlay").classList.toggle("hidden");
+  updateUpgradeTabCurrency(player);
+}
+
+function updateUpgradeTabCurrency(player) {
+  document.querySelector(".currency").innerHTML = `${player.totalScore.toFixed(
+    1
+  )}`;
+}
+
 // Initializing classes.
 const player = new Player();
 const page = new Page();
 
 // Page functions.
 buttonEvents(player, page);
+upgradeTabEvents(player);
 
 // Interval function(s).
 setInterval(function () {
