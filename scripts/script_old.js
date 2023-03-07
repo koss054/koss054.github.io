@@ -14,11 +14,12 @@ $(function () {
   let isGuessed = false;
 
   // Display initial values.
+  // setValuesOnPage();
 
   // Functionality for the button Again! that appears after the user runs out of their current score or if they guess correctly.
-  $(".btn.again").click(function () {
-    againClicked();
-  });
+  // $(".btn.again").click(function () {
+  //   againClicked();
+  // });
 
   // Functionality for the button Check! that is under the input field.
   $(".btn.check").click(function () {
