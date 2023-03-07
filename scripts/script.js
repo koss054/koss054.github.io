@@ -43,11 +43,20 @@ class Page {
     )}`;
   }
 
+  #setShortcutNumbers(minNumber, maxNumber) {
+    document.getElementById("min-number").innerHTML = `${minNumber}`;
+    document.getElementById("max-number").innerHTML = `${maxNumber}`;
+    document.getElementById("mid-number").innerHTML = `${Math.ceil(
+      maxNumber / 2
+    )}`;
+  }
+
   // Public methods.
   setValuesOnPage(player) {
     this.#setBetweenRange(player.minNumber, player.maxNumber);
     this.#setScore(player.currentScore);
     this.#setTotalScore(player.totalScore);
+    this.#setShortcutNumbers(player.minNumber, player.maxNumber);
   }
 
   resetScreen(player) {

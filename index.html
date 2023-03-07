@@ -75,7 +75,15 @@
     <div class="overlay hidden"></div>
 
     <section class="left">
-      <input type="number" id="guess" tabindex="1" />
+      <p id="shortcut-label">Quick Numbers</p>
+      <div id="guess-area">
+        <div id="guess-shortcut">
+          <button class="btn" id="min-number">1</button>
+          <button class="btn" id="mid-number">10</button>
+          <button class="btn" id="max-number">100</button>
+        </div>
+        <input type="number" id="guess" tabindex="1" />
+      </div>
       <button class="btn check">Check!</button>
       <button class="btn again">Again!</button>
     </section>
