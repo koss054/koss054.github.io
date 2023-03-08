@@ -6,6 +6,12 @@
   box-sizing: inherit;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 html {
   font-size: 62.5%;
   box-sizing: border-box;
@@ -160,7 +166,6 @@ p#message {
   text-align: center;
   display: block;
   margin-bottom: 1rem;
-  -webkit-appearance: none;
 }
 
 .btn {
