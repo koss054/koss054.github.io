@@ -103,6 +103,101 @@ class Page {
   }
 }
 
+class Upgrade {
+  constructor(
+    descriptionHtmlId,
+    buttonsHtmlId,
+    requiredScoreToReveal,
+    isRevealed,
+    name,
+    ownedAmount,
+    scorePerSecond,
+    totalScorePerSecond,
+    description,
+    buyPrice,
+    upgradePrice,
+    sellPrice
+  ) {
+    this.descriptionHtmlId = descriptionHtmlId;
+    this.buttonsHtmlId = buttonsHtmlId;
+
+    this.requiredScoreToReveal = requiredScoreToReveal;
+    this.isRevealed = isRevealed;
+
+    this.name = name;
+
+    this.ownedAmount = ownedAmount;
+    this.scorePerSecond = scorePerSecond;
+    this.totalScorePerSecond = totalScorePerSecond;
+
+    this.description = description;
+
+    this.buyPrice = buyPrice;
+    this.upgradePrice = upgradePrice;
+    this.sellPrice = sellPrice;
+  }
+
+  #descriptionHtmlTemplate() {
+    let htmlTemplate = `<div class="item">
+      <h2 class="item-name">${this.name}</h3>
+      <span class="item-info">
+        Owned: <span class="count">${this.ownedAmount}</span> 
+        // Score Per Second: <span class="score-per-second">${this.scorePerSecond}</span> 
+        // Current SPS: <span class="current-sps">${this.totalScorePerSecond}</span>
+      </span>
+      <p class="item-description">
+        ${this.description}
+      </p>
+    </div>`;
+
+    return htmlTemplate;
+  }
+
+  #buttonsHtmlTemplate() {
+    let htmlTemplate = `<button class="btn buy-item">Buy <span class="amount">1</span> <span class="price-symbol">🥇</span><span
+    class="buy-price">${this.buyPrice}</span></button>
+    <button class="btn upgrade-it">Upgrade It <span class="price-symbol">🥇</span><span
+        class="upgrade-price">${this.upgradePrice}</span></button>
+    <button class="btn sell-item">Sell <span class="amount">1</span> <span class="price-symbol">🥇</span><span
+        class="sell-price">${this.sellPrice}</span></button>`;
+
+    return htmlTemplate;
+  }
+
+  #insertUpgradeDescriptionHtml() {
+    const parentHtmlElement = document.getElementById(this.descriptionHtmlId);
+    parentHtmlElement.insertAdjacentHTML(
+      "afterbegin",
+      this.#descriptionHtmlTemplate()
+    );
+  }
+
+  #insertUpgradeButtonsHtml() {
+    const parentHtmlElement = document.getElementById(this.buttonsHtmlId);
+    parentHtmlElement.insertAdjacentHTML(
+      "afterbegin",
+      this.#buttonsHtmlTemplate()
+    );
+  }
+
+  #insertUnrevealedUpgradeHtml() {
+    const parentHtmlElement = document.getElementById(this.descriptionHtmlId);
+    parentHtmlElement.insertAdjacentHTML(
+      "afterbegin",
+      `<h2 style="margin-bottom: 2rem">????????</h2><p style="color: rgb(158, 158, 158)">?????????????????</p>`
+    );
+  }
+
+  insertUpgradeHtml() {
+    if (this.isRevealed) {
+      this.#insertUpgradeDescriptionHtml();
+      this.#insertUpgradeButtonsHtml();
+    } else {
+      this.#insertUnrevealedUpgradeHtml();
+    }
+  }
+}
+
 // Button events function.
 const buttonEvents = function (player, page) {
   // Button elements.
@@ -163,7 +258,7 @@ const upgradeTabEvents = function (player) {
 };
 
 // Shortcut buttons function.
-const shortcutButtonsEvents = function (player) {
+const shortcutButtonsEvents = function () {
   const userGuess = document.getElementById("guess");
 
   const minNumberBtn = document.getElementById("min-number");
@@ -225,9 +320,44 @@ const player = new Player();
 const page = new Page();
 
 // Page functions.
-buttonEvents(player, page);
+shortcutButtonsEvents();
 upgradeTabEvents(player);
-shortcutButtonsEvents(player);
+buttonEvents(player, page);
+
+// Initializing upgrades.
+const simpleAlgorithm = new Upgrade(
+  "simple-algorithm-description",
+  "simple-algorithm-buttons",
+  0,
+  true,
+  "Simple Algorithm",
+  0,
+  0.1,
+  0.0,
+  "Tired of guessing by yourself? Get a simple algorithm!",
+  10,
+  15,
+  10
+);
+
+const freelanceGuesser = new Upgrade(
+  "freelance-guesser-description",
+  "freelance-guesser-buttons",
+  0,
+  false,
+  "Freelance Guesser",
+  0,
+  1,
+  0.0,
+  "You're a freelance guesser? Get a freelance guesser!",
+  10,
+  15,
+  10
+);
+
+// Generating upgrade HTML.
+simpleAlgorithm.insertUpgradeHtml();
+freelanceGuesser.insertUpgradeHtml();
 
 // Interval function(s).
 setInterval(function () {
