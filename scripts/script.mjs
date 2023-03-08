@@ -1,3 +1,7 @@
+// Imports.
+import { SimpleAlgorithmBuilder } from "./builders/simple-algorithm-builder.mjs";
+import { FreelanceGuesserBuilder } from "./builders/freelance-guesser-builder.mjs";
+
 // Player stats.
 class Player {
   constructor() {
@@ -24,7 +28,7 @@ class Player {
   }
 }
 
-// Functions used in page functions.
+// Page object.
 class Page {
   // Private methods.
   #setBetweenRange(minNumber, maxNumber) {
@@ -103,40 +107,8 @@ class Page {
   }
 }
 
-class Upgrade {
-  constructor(
-    descriptionHtmlId,
-    buttonsHtmlId,
-    requiredScoreToReveal,
-    isRevealed,
-    name,
-    ownedAmount,
-    scorePerSecond,
-    totalScorePerSecond,
-    description,
-    buyPrice,
-    upgradePrice,
-    sellPrice
-  ) {
-    this.descriptionHtmlId = descriptionHtmlId;
-    this.buttonsHtmlId = buttonsHtmlId;
-
-    this.requiredScoreToReveal = requiredScoreToReveal;
-    this.isRevealed = isRevealed;
-
-    this.name = name;
-
-    this.ownedAmount = ownedAmount;
-    this.scorePerSecond = scorePerSecond;
-    this.totalScorePerSecond = totalScorePerSecond;
-
-    this.description = description;
-
-    this.buyPrice = buyPrice;
-    this.upgradePrice = upgradePrice;
-    this.sellPrice = sellPrice;
-  }
-
+// Upgrade object.
+export class Upgrade {
   #descriptionHtmlTemplate() {
     let htmlTemplate = `<div class="item">
       <h2 class="item-name">${this.name}</h3>
@@ -197,6 +169,8 @@ class Upgrade {
     }
   }
 }
+
+// Builders.
 
 // Button events function.
 const buttonEvents = function (player, page) {
@@ -324,36 +298,13 @@ shortcutButtonsEvents();
 upgradeTabEvents(player);
 buttonEvents(player, page);
 
-// Initializing upgrades.
-const simpleAlgorithm = new Upgrade(
-  "simple-algorithm-description",
-  "simple-algorithm-buttons",
-  0,
-  true,
-  "Simple Algorithm",
-  0,
-  0.1,
-  0.0,
-  "Tired of guessing by yourself? Get a simple algorithm!",
-  10,
-  15,
-  10
-);
+// Initializing builders.
+const simpleAlgorithmBuilder = new SimpleAlgorithmBuilder();
+const freelanceGuesserBuilder = new FreelanceGuesserBuilder();
 
-const freelanceGuesser = new Upgrade(
-  "freelance-guesser-description",
-  "freelance-guesser-buttons",
-  0,
-  false,
-  "Freelance Guesser",
-  0,
-  1,
-  0.0,
-  "You're a freelance guesser? Get a freelance guesser!",
-  10,
-  15,
-  10
-);
+// Initializing upgrades.
+let simpleAlgorithm = simpleAlgorithmBuilder.createSimpleAlgorithm();
+let freelanceGuesser = freelanceGuesserBuilder.createFreelanceGuesser();
 
 // Generating upgrade HTML.
 simpleAlgorithm.insertUpgradeHtml();
