@@ -162,6 +162,51 @@ const upgradeTabEvents = function (player) {
   });
 };
 
+// Shortcut buttons function.
+const shortcutButtonsEvents = function (player) {
+  const userGuess = document.getElementById("guess");
+
+  const minNumberBtn = document.getElementById("min-number");
+  const midNumberBtn = document.getElementById("mid-number");
+  const maxNumberBtn = document.getElementById("max-number");
+
+  const upArrow = document.getElementById("guess-upper");
+  const downArrow = document.getElementById("guess-lower");
+
+  minNumberBtn.addEventListener("click", function () {
+    let minNumber = Number(minNumberBtn.innerHTML);
+    userGuess.value = minNumber;
+  });
+
+  midNumberBtn.addEventListener("click", function () {
+    let midNumber = Number(midNumberBtn.innerHTML);
+    userGuess.value = midNumber;
+  });
+
+  maxNumberBtn.addEventListener("click", function () {
+    let maxNumber = Number(maxNumberBtn.innerHTML);
+    userGuess.value = maxNumber;
+  });
+
+  upArrow.addEventListener("click", function () {
+    arrowGuessUpdate("up");
+  });
+
+  downArrow.addEventListener("click", function () {
+    arrowGuessUpdate("down");
+  });
+
+  function arrowGuessUpdate(direction) {
+    if (!userGuess.value) {
+      userGuess.value = 1;
+    } else if (direction === "up") {
+      userGuess.value++;
+    } else if (direction === "down") {
+      userGuess.value--;
+    }
+  }
+};
+
 // Global functions.
 function toggleUpgradeTab(player) {
   document.querySelector(".upgrade-tab").classList.toggle("hidden");
@@ -182,6 +227,7 @@ const page = new Page();
 // Page functions.
 buttonEvents(player, page);
 upgradeTabEvents(player);
+shortcutButtonsEvents(player);
 
 // Interval function(s).
 setInterval(function () {
