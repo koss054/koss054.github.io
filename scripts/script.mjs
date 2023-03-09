@@ -75,7 +75,7 @@ const upgradeItemButtonEvents = function (player, page, upgrade) {
 
   btnBuy.addEventListener("click", function () {
     console.log(upgrade.ownedAmount);
-    upgrade.buyUpgrade(player, page);
+    upgrade.buyUpgrade(player, page, btnBuy);
     console.log(upgrade.ownedAmount);
   });
 };

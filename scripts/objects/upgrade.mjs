@@ -1,3 +1,6 @@
+// Animation import.
+import { shake } from "../animations/button-animation.mjs";
+
 // Upgrade object.
 export class Upgrade {
   #descriptionHtmlTemplate() {
@@ -60,13 +63,14 @@ export class Upgrade {
     }
   }
 
-  buyUpgrade(player, page) {
+  buyUpgrade(player, page, button) {
     if (player.totalScore >= this.buyPrice) {
       player.totalScore -= this.buyPrice;
       this.ownedAmount++;
       page.setValuesOnPage(player);
     } else {
       console.log("not enough score to buy");
+      shake(button);
     }
   }
 }
