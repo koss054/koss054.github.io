@@ -1,4 +1,4 @@
-import { Upgrade } from "../script.mjs";
+import { Upgrade } from "../objects/upgrade.mjs";
 
 export class FreelanceGuesserBuilder {
   constructor() {
