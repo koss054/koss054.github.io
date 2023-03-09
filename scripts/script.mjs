@@ -177,6 +177,16 @@ export class Upgrade {
       this.#insertUnrevealedUpgradeHtml();
     }
   }
+
+  buyUpgrade(player, page) {
+    if (player.totalScore >= this.buyPrice) {
+      player.totalScore -= this.buyPrice;
+      this.ownedAmount++;
+      page.setValuesOnPage(player);
+    } else {
+      console.log("not enough score to buy");
+    }
+  }
 }
 
 // Button events function.
@@ -237,6 +247,16 @@ const upgradeTabEvents = function (player) {
 
   closeUpgradeTab.addEventListener("click", function () {
     toggleUpgradeTab(player);
+  });
+};
+
+const upgradeItemButtonEvents = function (player, page, upgrade) {
+  const btnBuy = document.querySelector(`#${upgrade.buttonsHtmlId} .buy-item`);
+
+  btnBuy.addEventListener("click", function () {
+    console.log(upgrade.ownedAmount);
+    upgrade.buyUpgrade(player, page);
+    console.log(upgrade.ownedAmount);
   });
 };
 
@@ -325,12 +345,13 @@ if (document.cookie.length > 0) {
 // Initializing page.
 const page = new Page(cookies);
 
-console.log(player.secretNumber);
-
 // Page functions.
 shortcutButtonsEvents();
 upgradeTabEvents(player);
 buttonEvents(player, page);
+
+// Upgrade buttons.
+upgradeItemButtonEvents(player, page, simpleAlgorithm);
 
 // Interval functions.
 setInterval(function () {
