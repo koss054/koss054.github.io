@@ -1,6 +1,7 @@
 // Imports.
 import { SimpleAlgorithmBuilder } from "./builders/simple-algorithm-builder.mjs";
 import { FreelanceGuesserBuilder } from "./builders/freelance-guesser-builder.mjs";
+import { Cookie } from "./cookies/cookies.mjs";
 
 // Player stats.
 class Player {
@@ -82,7 +83,6 @@ class Page {
   }
 
   updateOnClick(player, playerGuess, guessMessageElement) {
-    console.log(player);
     if (playerGuess == player.secretNumber) {
       this.guessedNumber(player.secretNumber);
       guessMessageElement.innerHTML =
@@ -169,8 +169,6 @@ export class Upgrade {
     }
   }
 }
-
-// Builders.
 
 // Button events function.
 const buttonEvents = function (player, page) {
@@ -293,11 +291,6 @@ function updateUpgradeTabCurrency(player) {
 const player = new Player();
 const page = new Page();
 
-// Page functions.
-shortcutButtonsEvents();
-upgradeTabEvents(player);
-buttonEvents(player, page);
-
 // Initializing builders.
 const simpleAlgorithmBuilder = new SimpleAlgorithmBuilder();
 const freelanceGuesserBuilder = new FreelanceGuesserBuilder();
@@ -309,6 +302,15 @@ let freelanceGuesser = freelanceGuesserBuilder.createFreelanceGuesser();
 // Generating upgrade HTML.
 simpleAlgorithm.insertUpgradeHtml();
 freelanceGuesser.insertUpgradeHtml();
+
+// Cookies
+let cookies = new Cookie(player, simpleAlgorithm, freelanceGuesser);
+console.log(cookies.setCookies());
+
+// Page functions.
+shortcutButtonsEvents();
+upgradeTabEvents(player);
+buttonEvents(player, page);
 
 // Interval function(s).
 setInterval(function () {
