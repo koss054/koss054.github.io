@@ -31,6 +31,10 @@ class Player {
 
 // Page object.
 class Page {
+  constructor(cookies) {
+    this.cookies = cookies;
+  }
+
   // Private methods.
   #setBetweenRange(minNumber, maxNumber) {
     document.getElementById(
@@ -43,9 +47,13 @@ class Page {
   }
 
   #setTotalScore(totalScore) {
-    document.getElementById("total-score").innerHTML = `${totalScore.toFixed(
-      1
-    )}`;
+    if (totalScore < 1) {
+      document.getElementById("total-score").innerHTML = `0`;
+    } else {
+      document.getElementById("total-score").innerHTML = `${totalScore.toFixed(
+        1
+      )}`;
+    }
   }
 
   #setShortcutNumbers(minNumber, maxNumber) {
@@ -80,6 +88,7 @@ class Page {
     document.querySelector(".btn.check").style.display = "none";
     document.querySelector(".btn.again").style.display = "inline-block";
     document.querySelector(".number").innerHTML = `${secretNumber}`;
+    this.cookies.setCookies();
   }
 
   updateOnClick(player, playerGuess, guessMessageElement) {
@@ -194,6 +203,7 @@ const buttonEvents = function (player, page) {
   function againClicked(player, page) {
     player.currentScore = Math.ceil(player.maxNumber / 2);
     page.resetScreen(player, page);
+    page.cookies.setCookies();
   }
 
   function checkClicked(player, page) {
@@ -210,6 +220,7 @@ const buttonEvents = function (player, page) {
         guessMessage.innerHTML =
           "⛔ You didn't guess! Changing secret number...";
         player.setSecretNumber();
+        page.cookies.setCookies();
       }
     }
   }
@@ -287,9 +298,8 @@ function updateUpgradeTabCurrency(player) {
   )}`;
 }
 
-// Initializing classes.
+// Initializing player.
 const player = new Player();
-const page = new Page();
 
 // Initializing builders.
 const simpleAlgorithmBuilder = new SimpleAlgorithmBuilder();
@@ -307,17 +317,22 @@ freelanceGuesser.insertUpgradeHtml();
 let cookies = new Cookie(player, simpleAlgorithm, freelanceGuesser);
 
 if (document.cookie.length > 0) {
-  console.log("cookies already set");
+  cookies.loadCookies(player, simpleAlgorithm);
 } else {
   cookies.setCookies();
 }
+
+// Initializing page.
+const page = new Page(cookies);
+
+console.log(player.secretNumber);
 
 // Page functions.
 shortcutButtonsEvents();
 upgradeTabEvents(player);
 buttonEvents(player, page);
 
-// Interval function(s).
+// Interval functions.
 setInterval(function () {
   page.setValuesOnPage(player);
 }, 100);
@@ -325,4 +340,4 @@ setInterval(function () {
 setInterval(function () {
   console.log("autosave");
   cookies.setCookies();
-}, 60000); // Autosave every 60 seconds.
+}, 15000); // Autosave every 15 seconds.
