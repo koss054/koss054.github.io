@@ -33,7 +33,5 @@ export class Cookie {
   setCookies() {
     document.cookie = this.setPlayerCookies();
     document.cookie = this.setSimpleAlgorithmCookies();
-
-    return document.cookie;
   }
 }

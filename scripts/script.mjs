@@ -305,7 +305,12 @@ freelanceGuesser.insertUpgradeHtml();
 
 // Cookies
 let cookies = new Cookie(player, simpleAlgorithm, freelanceGuesser);
-console.log(cookies.setCookies());
+
+if (document.cookie.length > 0) {
+  console.log("cookies already set");
+} else {
+  cookies.setCookies();
+}
 
 // Page functions.
 shortcutButtonsEvents();
@@ -316,3 +321,8 @@ buttonEvents(player, page);
 setInterval(function () {
   page.setValuesOnPage(player);
 }, 100);
+
+setInterval(function () {
+  console.log("autosave");
+  cookies.setCookies();
+}, 60000); // Autosave every 60 seconds.
