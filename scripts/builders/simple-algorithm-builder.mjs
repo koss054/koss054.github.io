@@ -1,4 +1,4 @@
-import { Upgrade } from "../script.mjs";
+import { Upgrade } from "../objects/upgrade.mjs";
 
 export class SimpleAlgorithmBuilder {
   constructor() {
@@ -19,7 +19,7 @@ export class SimpleAlgorithmBuilder {
   }
 
   #setIsRevealed(item) {
-    item.isRevealed = true;
+    item.isRevealed = false;
   }
 
   #setName(item) {
@@ -50,10 +50,6 @@ export class SimpleAlgorithmBuilder {
     item.upgradePrice = 15;
   }
 
-  #setSellPrice(item) {
-    item.sellPrice = 10;
-  }
-
   createSimpleAlgorithm() {
     this.#setHtmlIds(this.simpleAlgorithm);
     this.#setRequiredScoreToReveal(this.simpleAlgorithm);
@@ -65,7 +61,6 @@ export class SimpleAlgorithmBuilder {
     this.#setDescription(this.simpleAlgorithm);
     this.#setBuyPrice(this.simpleAlgorithm);
     this.#setUpgradePrice(this.simpleAlgorithm);
-    this.#setSellPrice(this.simpleAlgorithm);
 
     return this.simpleAlgorithm;
   }

@@ -1,4 +1,4 @@
-import { Upgrade } from "../script.mjs";
+import { Upgrade } from "../objects/upgrade.mjs";
 
 export class FreelanceGuesserBuilder {
   constructor() {
@@ -50,10 +50,6 @@ export class FreelanceGuesserBuilder {
     item.upgradePrice = 75;
   }
 
-  #setSellPrice(item) {
-    item.sellPrice = 25;
-  }
-
   createFreelanceGuesser() {
     this.#setHtmlIds(this.freelanceGuesser);
     this.#setRequiredScoreToReveal(this.freelanceGuesser);
@@ -65,7 +61,6 @@ export class FreelanceGuesserBuilder {
     this.#setDescription(this.freelanceGuesser);
     this.#setBuyPrice(this.freelanceGuesser);
     this.#setUpgradePrice(this.freelanceGuesser);
-    this.#setSellPrice(this.freelanceGuesser);
 
     return this.freelanceGuesser;
   }

@@ -1,183 +1,13 @@
-// Imports.
+// Object imports.
+import { Player } from "./objects/player.mjs";
+import { Page } from "./objects/page.mjs";
+
+// Builder imports.
 import { SimpleAlgorithmBuilder } from "./builders/simple-algorithm-builder.mjs";
 import { FreelanceGuesserBuilder } from "./builders/freelance-guesser-builder.mjs";
+
+// Cookie import.
 import { Cookie } from "./cookies/cookies.mjs";
-
-// Player stats.
-class Player {
-  constructor() {
-    this.minNumber = 1;
-    this.maxNumber = 5;
-
-    this.currentScore = Math.ceil(this.maxNumber / 2);
-    this.totalScore = 0.000001;
-
-    // TODO: Make secret number private to it can't be taken from the dev console.
-    // Easy fix but rn I'm too lazy to update it ;D
-    this.secretNumber =
-      Math.floor(Math.random() * this.maxNumber) + this.minNumber;
-    this.isGuessed = false;
-  }
-
-  resetScore() {
-    this.currentScore = Math.ceil(this.maxNumber / 2);
-  }
-
-  setSecretNumber() {
-    this.secretNumber =
-      Math.floor(Math.random() * this.maxNumber) + this.minNumber;
-  }
-}
-
-// Page object.
-class Page {
-  constructor(cookies) {
-    this.cookies = cookies;
-  }
-
-  // Private methods.
-  #setBetweenRange(minNumber, maxNumber) {
-    document.getElementById(
-      "between"
-    ).innerHTML = `(Between ${minNumber} and ${maxNumber})`;
-  }
-
-  #setScore(currentScore) {
-    document.getElementById("score").innerHTML = `${currentScore}`;
-  }
-
-  #setTotalScore(totalScore) {
-    if (totalScore < 1) {
-      document.getElementById("total-score").innerHTML = `0`;
-    } else {
-      document.getElementById("total-score").innerHTML = `${totalScore.toFixed(
-        1
-      )}`;
-    }
-  }
-
-  #setShortcutNumbers(minNumber, maxNumber) {
-    document.getElementById("min-number").innerHTML = `${minNumber}`;
-    document.getElementById("max-number").innerHTML = `${maxNumber}`;
-    document.getElementById("mid-number").innerHTML = `${Math.ceil(
-      maxNumber / 2
-    )}`;
-  }
-
-  // Public methods.
-  setValuesOnPage(player) {
-    this.#setBetweenRange(player.minNumber, player.maxNumber);
-    this.#setScore(player.currentScore);
-    this.#setTotalScore(player.totalScore);
-    this.#setShortcutNumbers(player.minNumber, player.maxNumber);
-  }
-
-  resetScreen(player) {
-    player.isGuessed = false;
-    document.querySelector("body").style.background = "#222";
-    document.querySelector(".number").style.width = "15rem";
-    document.querySelector(".btn.again").style.display = "none";
-    document.querySelector(".btn.check").style.display = "inline-block";
-    document.querySelector(".number").innerHTML = "?";
-    document.querySelector("#message").innerHTML = "Start guessing...";
-  }
-
-  guessedNumber(secretNumber) {
-    document.querySelector("body").style.background = "#60b347";
-    document.querySelector(".number").style.width = "30rem";
-    document.querySelector(".btn.check").style.display = "none";
-    document.querySelector(".btn.again").style.display = "inline-block";
-    document.querySelector(".number").innerHTML = `${secretNumber}`;
-    this.cookies.setCookies();
-  }
-
-  updateOnClick(player, playerGuess, guessMessageElement) {
-    if (playerGuess == player.secretNumber) {
-      this.guessedNumber(player.secretNumber);
-      guessMessageElement.innerHTML =
-        "✅ You guessed the number! Changing number...";
-      player.totalScore += player.currentScore;
-      player.setSecretNumber();
-      player.isGuessed = true;
-    } else if (playerGuess > player.secretNumber) {
-      guessMessageElement.innerHTML = "☝ Too high...";
-      player.currentScore--;
-    } else if (playerGuess < player.secretNumber) {
-      guessMessageElement.innerHTML = "👇 Too low...";
-      player.currentScore--;
-    }
-  }
-
-  outOfScore() {
-    document.querySelector("body").style.background = "#ab263a";
-    document.querySelector(".btn.check").style.display = "none";
-    document.querySelector(".btn.again").style.display = "inline-block";
-    document.querySelector(".number").innerHTML = "X";
-  }
-}
-
-// Upgrade object.
-export class Upgrade {
-  #descriptionHtmlTemplate() {
-    let htmlTemplate = `<div class="item">
-      <h2 class="item-name">${this.name}</h3>
-      <span class="item-info">
-        Owned: <span class="count">${this.ownedAmount}</span> 
-        // Score Per Second: <span class="score-per-second">${this.scorePerSecond}</span> 
-        // Current SPS: <span class="current-sps">${this.totalScorePerSecond}</span>
-      </span>
-      <p class="item-description">
-        ${this.description}
-      </p>
-    </div>`;
-
-    return htmlTemplate;
-  }
-
-  #buttonsHtmlTemplate() {
-    let htmlTemplate = `<button class="btn buy-item">Buy <span class="amount">1</span> <span class="price-symbol">🥇</span><span
-    class="buy-price">${this.buyPrice}</span></button>
-    <button class="btn upgrade-it">Upgrade It <span class="price-symbol">🥇</span><span
-        class="upgrade-price">${this.upgradePrice}</span></button>
-    <button class="btn sell-item">Sell <span class="amount">1</span> <span class="price-symbol">🥇</span><span
-        class="sell-price">${this.sellPrice}</span></button>`;
-
-    return htmlTemplate;
-  }
-
-  #insertUpgradeDescriptionHtml() {
-    const parentHtmlElement = document.getElementById(this.descriptionHtmlId);
-    parentHtmlElement.insertAdjacentHTML(
-      "afterbegin",
-      this.#descriptionHtmlTemplate()
-    );
-  }
-
-  #insertUpgradeButtonsHtml() {
-    const parentHtmlElement = document.getElementById(this.buttonsHtmlId);
-    parentHtmlElement.insertAdjacentHTML(
-      "afterbegin",
-      this.#buttonsHtmlTemplate()
-    );
-  }
-
-  #insertUnrevealedUpgradeHtml() {
-    const parentHtmlElement = document.getElementById(this.descriptionHtmlId);
-    parentHtmlElement.insertAdjacentHTML(
-      "afterbegin",
-      `<h2 style="margin-bottom: 2rem">????????</h2><p style="color: rgb(158, 158, 158)">?????????????????</p>`
-    );
-  }
-
-  insertUpgradeHtml() {
-    if (this.isRevealed) {
-      this.#insertUpgradeDescriptionHtml();
-      this.#insertUpgradeButtonsHtml();
-    } else {
-      this.#insertUnrevealedUpgradeHtml();
-    }
-  }
-}
 
 // Button events function.
 const buttonEvents = function (player, page) {
@@ -219,6 +49,7 @@ const buttonEvents = function (player, page) {
         page.outOfScore();
         guessMessage.innerHTML =
           "⛔ You didn't guess! Changing secret number...";
+        player.removeScoreOnFail();
         player.setSecretNumber();
         page.cookies.setCookies();
       }
@@ -238,6 +69,28 @@ const upgradeTabEvents = function (player) {
   closeUpgradeTab.addEventListener("click", function () {
     toggleUpgradeTab(player);
   });
+};
+
+const upgradeItemButtonEvents = function (player, page, upgrades) {
+  for (const upgrade of upgrades) {
+    if (upgrade.isRevealed) {
+      const btnBuy = document.querySelector(
+        `#${upgrade.buttonsHtmlId} .buy-item`
+      );
+
+      const btnUpgrade = document.querySelector(
+        `#${upgrade.buttonsHtmlId} .upgrade-it`
+      );
+
+      btnBuy.addEventListener("click", function () {
+        upgrade.buyUpgrade(player, page, btnBuy);
+      });
+
+      btnUpgrade.addEventListener("click", function () {
+        upgrade.improveUpgrade(player, page, btnUpgrade);
+      });
+    }
+  }
 };
 
 // Shortcut buttons function.
@@ -298,6 +151,14 @@ function updateUpgradeTabCurrency(player) {
   )}`;
 }
 
+function setUpgradeTabValues(player, page, upgrades) {
+  for (const upgrade of upgrades) {
+    if (upgrade.isRevealed) {
+      page.setUpgradeValuesOnPage(player, upgrade);
+    }
+  }
+}
+
 // Initializing player.
 const player = new Player();
 
@@ -309,12 +170,11 @@ const freelanceGuesserBuilder = new FreelanceGuesserBuilder();
 let simpleAlgorithm = simpleAlgorithmBuilder.createSimpleAlgorithm();
 let freelanceGuesser = freelanceGuesserBuilder.createFreelanceGuesser();
 
-// Generating upgrade HTML.
-simpleAlgorithm.insertUpgradeHtml();
-freelanceGuesser.insertUpgradeHtml();
+// Upgrade array.
+const upgrades = [simpleAlgorithm, freelanceGuesser];
 
 // Cookies
-let cookies = new Cookie(player, simpleAlgorithm, freelanceGuesser);
+let cookies = new Cookie(player, upgrades);
 
 if (document.cookie.length > 0) {
   cookies.loadCookies(player, simpleAlgorithm);
@@ -325,19 +185,29 @@ if (document.cookie.length > 0) {
 // Initializing page.
 const page = new Page(cookies);
 
-console.log(player.secretNumber);
-
 // Page functions.
 shortcutButtonsEvents();
 upgradeTabEvents(player);
 buttonEvents(player, page);
 
+// Generate upgrades html.
+player.setInitialUpgradesHtml(upgrades);
+
 // Interval functions.
 setInterval(function () {
   page.setValuesOnPage(player);
+  player.setScorePerSecond(upgrades);
+  setUpgradeTabValues(player, page, upgrades);
 }, 100);
 
 setInterval(function () {
-  console.log("autosave");
+  player.updateScoreEverySecond();
+  player.revealUpgrades(upgrades);
+  upgradeItemButtonEvents(player, page, upgrades);
+}, 1000); // Updates the socre every second, depending on the current score per second.
+
+setInterval(function () {
+  console.log("Game has been autosaved...");
+  console.log(`Player sps: ${player.scorePerSecond}`);
   cookies.setCookies();
 }, 15000); // Autosave every 15 seconds.

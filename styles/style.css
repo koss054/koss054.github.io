@@ -273,14 +273,10 @@ p#message {
 }
 
 .item-button button {
-  width: 35%;
+  width: 45%;
   height: 5rem;
   font-size: 13px;
   padding-top: 1rem;
-}
-
-.btn.sell-item {
-  width: 20%;
 }
 
 .btn.buy-item:hover {
@@ -289,8 +285,4 @@ p#message {
 
 .btn.btn.upgrade-it:hover {
   color: rgb(147, 0, 147);
-}
-
-.btn.sell-item:hover {
-  color: #ab263a;
 }

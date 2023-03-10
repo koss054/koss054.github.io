@@ -1,5 +1,5 @@
 export class Cookie {
-  constructor(player, ...upgrades) {
+  constructor(player, upgrades) {
     this.player = player;
     this.upgrades = upgrades;
   }
@@ -7,10 +7,12 @@ export class Cookie {
   #setPlayerCookies() {
     document.cookie = `minNum=${this.player.minNumber}`;
     document.cookie = `maxNum=${this.player.maxNumber}`;
+    document.cookie = `sPS=${this.player.scorePerSecond}`;
     document.cookie = `currScore=${this.player.currentScore}`;
-    document.cookie = `totalScore=${this.player.totalScore}`;
+    document.cookie = `totalScore=${this.player.totalScore.toFixed(1)}`;
     document.cookie = `secretNum=${this.player.secretNumber}`;
     document.cookie = `isGuessed=${this.player.isGuessed}`;
+    document.cookie = `lifetimeScore=${this.player.lifetimeScore.toFixed(1)}`;
 
     return document.cookie;
   }
@@ -18,12 +20,14 @@ export class Cookie {
   #setSimpleAlgorithmCookies() {
     const sa = this.upgrades[0];
     document.cookie = `saReveal=${sa.isRevealed}`;
-    document.cookie = `saOwned=${sa.ownedAmount}`;
-    document.cookie = `saSps=${sa.scorePerSecond}`;
-    document.cookie = `saTsps=${sa.totalScorePerSecond}`;
-    document.cookie = `saBuy=${sa.buyPrice}`;
-    document.cookie = `saUpgrade=${sa.upgradePrice}`;
-    document.cookie = `saSell=${sa.sellPrice}`;
+
+    if (sa.isRevealed) {
+      document.cookie = `saOwned=${sa.ownedAmount}`;
+      document.cookie = `saSps=${sa.scorePerSecond}`;
+      document.cookie = `saTsps=${sa.totalScorePerSecond}`;
+      document.cookie = `saBuy=${sa.buyPrice}`;
+      document.cookie = `saUpgrade=${sa.upgradePrice}`;
+    }
 
     return document.cookie;
   }
@@ -48,20 +52,24 @@ export class Cookie {
   #loadPlayerCookies(player, currCookies) {
     player.minNumber = Number(currCookies.minNum);
     player.maxNumber = Number(currCookies.maxNum);
+    player.scorePerSecond = Number(currCookies.sPS);
     player.currentScore = Number(currCookies.currScore);
     player.totalScore = Number(currCookies.totalScore);
     player.secretNumber = Number(currCookies.secretNum);
     player.isGuessed = Boolean(currCookies.isGuessed);
+    player.lifetimeScore = Number(currCookies.lifetimeScore);
   }
 
   #loadSimpleAlgorithmCookies(sa, currCookies) {
-    sa.isRevealed = Boolean(currCookies.isRevealed);
-    sa.ownedAmount = Number(currCookies.saOwned);
-    sa.scorePerSecond = Number(currCookies.saSps);
-    sa.totalScorePerSecond = Number(currCookies.saTsps);
-    sa.buyPrice = Number(currCookies.saBuy);
-    sa.upgradePrice = Number(currCookies.saUpgrade);
-    sa.sellPrice = Number(currCookies.saSell);
+    sa.isRevealed = Boolean(currCookies.saReveal);
+
+    if (sa.isRevealed) {
+      sa.ownedAmount = Number(currCookies.saOwned);
+      sa.scorePerSecond = Number(currCookies.saSps);
+      sa.totalScorePerSecond = Number(currCookies.saTsps);
+      sa.buyPrice = Number(currCookies.saBuy);
+      sa.upgradePrice = Number(currCookies.saUpgrade);
+    }
   }
 
   loadCookies(player, ...upgrades) {
