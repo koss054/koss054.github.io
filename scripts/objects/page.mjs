@@ -66,6 +66,7 @@ export class Page {
       guessMessageElement.innerHTML =
         "✅ You guessed the number! Changing number...";
       player.totalScore += player.currentScore;
+      player.lifetimeScore += player.currentScore;
       player.setSecretNumber();
       player.isGuessed = true;
     } else if (playerGuess > player.secretNumber) {
@@ -82,5 +83,43 @@ export class Page {
     document.querySelector(".btn.check").style.display = "none";
     document.querySelector(".btn.again").style.display = "inline-block";
     document.querySelector(".number").innerHTML = "X";
+  }
+
+  // Private upgrade tab methods.
+  #setUpgradeTabTotalScore(player) {
+    let totalScoreElement = document.querySelector(
+      ".upgrade-currency .currency"
+    );
+    totalScoreElement.innerHTML = `${player.totalScore.toFixed(1)}`;
+  }
+
+  #setUpgradeDescriptionValues(upgrade) {
+    const descId = `#${upgrade.descriptionHtmlId}`;
+    let ownedAmountElement = document.querySelector(`${descId} .count`);
+    let spsElement = document.querySelector(`${descId} .score-per-second`);
+    let currentSpsElement = document.querySelector(`${descId} .current-sps`);
+
+    ownedAmountElement.innerHTML = `${upgrade.ownedAmount}`;
+    spsElement.innerHTML = `${upgrade.scorePerSecond}`;
+    currentSpsElement.innerHTML = `${upgrade.totalScorePerSecond}`;
+  }
+
+  #setUpgradeButtonValues(upgrade) {
+    const buttonId = `#${upgrade.buttonsHtmlId}`;
+    let buyElement = document.querySelector(`${buttonId} .buy-price`);
+    let upgradeElement = document.querySelector(`${buttonId} .upgrade-price`);
+
+    buyElement.innerHTML = `${upgrade.buyPrice}`;
+    upgradeElement.innerHTML = `${upgrade.upgradePrice}`;
+  }
+
+  // Public upgrade tab methods.
+  setUpgradeValuesOnPage(player, upgrade) {
+    this.#setUpgradeTabTotalScore(player);
+
+    if (upgrade.isRevealed) {
+      this.#setUpgradeDescriptionValues(upgrade);
+      this.#setUpgradeButtonValues(upgrade);
+    }
   }
 }

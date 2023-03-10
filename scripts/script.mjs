@@ -49,6 +49,7 @@ const buttonEvents = function (player, page) {
         page.outOfScore();
         guessMessage.innerHTML =
           "⛔ You didn't guess! Changing secret number...";
+        player.removeScoreOnFail();
         player.setSecretNumber();
         page.cookies.setCookies();
       }
@@ -70,14 +71,26 @@ const upgradeTabEvents = function (player) {
   });
 };
 
-const upgradeItemButtonEvents = function (player, page, upgrade) {
-  const btnBuy = document.querySelector(`#${upgrade.buttonsHtmlId} .buy-item`);
+const upgradeItemButtonEvents = function (player, page, upgrades) {
+  for (const upgrade of upgrades) {
+    if (upgrade.isRevealed) {
+      const btnBuy = document.querySelector(
+        `#${upgrade.buttonsHtmlId} .buy-item`
+      );
 
-  btnBuy.addEventListener("click", function () {
-    console.log(upgrade.ownedAmount);
-    upgrade.buyUpgrade(player, page, btnBuy);
-    console.log(upgrade.ownedAmount);
-  });
+      const btnUpgrade = document.querySelector(
+        `#${upgrade.buttonsHtmlId} .upgrade-it`
+      );
+
+      btnBuy.addEventListener("click", function () {
+        upgrade.buyUpgrade(player, page, btnBuy);
+      });
+
+      btnUpgrade.addEventListener("click", function () {
+        upgrade.improveUpgrade(player, page, btnUpgrade);
+      });
+    }
+  }
 };
 
 // Shortcut buttons function.
@@ -138,6 +151,14 @@ function updateUpgradeTabCurrency(player) {
   )}`;
 }
 
+function setUpgradeTabValues(player, page, upgrades) {
+  for (const upgrade of upgrades) {
+    if (upgrade.isRevealed) {
+      page.setUpgradeValuesOnPage(player, upgrade);
+    }
+  }
+}
+
 // Initializing player.
 const player = new Player();
 
@@ -149,12 +170,11 @@ const freelanceGuesserBuilder = new FreelanceGuesserBuilder();
 let simpleAlgorithm = simpleAlgorithmBuilder.createSimpleAlgorithm();
 let freelanceGuesser = freelanceGuesserBuilder.createFreelanceGuesser();
 
-// Generating upgrade HTML.
-simpleAlgorithm.insertUpgradeHtml();
-freelanceGuesser.insertUpgradeHtml();
+// Upgrade array.
+const upgrades = [simpleAlgorithm, freelanceGuesser];
 
 // Cookies
-let cookies = new Cookie(player, simpleAlgorithm, freelanceGuesser);
+let cookies = new Cookie(player, upgrades);
 
 if (document.cookie.length > 0) {
   cookies.loadCookies(player, simpleAlgorithm);
@@ -170,15 +190,24 @@ shortcutButtonsEvents();
 upgradeTabEvents(player);
 buttonEvents(player, page);
 
-// Upgrade buttons.
-upgradeItemButtonEvents(player, page, simpleAlgorithm);
+// Generate upgrades html.
+player.setInitialUpgradesHtml(upgrades);
 
 // Interval functions.
 setInterval(function () {
   page.setValuesOnPage(player);
+  player.setScorePerSecond(upgrades);
+  setUpgradeTabValues(player, page, upgrades);
 }, 100);
 
 setInterval(function () {
-  console.log("autosave");
+  player.updateScoreEverySecond();
+  player.revealUpgrades(upgrades);
+  upgradeItemButtonEvents(player, page, upgrades);
+}, 1000); // Updates the socre every second, depending on the current score per second.
+
+setInterval(function () {
+  console.log("Game has been autosaved...");
+  console.log(`Player sps: ${player.scorePerSecond}`);
   cookies.setCookies();
 }, 15000); // Autosave every 15 seconds.
