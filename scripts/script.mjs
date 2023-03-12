@@ -184,14 +184,13 @@ if (document.cookie.length > 0) {
 
 // Initializing page.
 const page = new Page(cookies);
+player.setInitialUpgradesHtml(upgrades);
+setUpgradeTabValues(player, page, upgrades);
 
 // Page functions.
 shortcutButtonsEvents();
 upgradeTabEvents(player);
 buttonEvents(player, page);
-
-// Generate upgrades html.
-player.setInitialUpgradesHtml(upgrades);
 
 // Interval functions.
 setInterval(function () {
@@ -202,7 +201,7 @@ setInterval(function () {
 
 setInterval(function () {
   player.updateScoreEverySecond();
-  player.revealUpgrades(upgrades);
+  player.revealUpgrades(upgrades, cookies);
   upgradeItemButtonEvents(player, page, upgrades);
 }, 1000); // Updates the socre every second, depending on the current score per second.
 
