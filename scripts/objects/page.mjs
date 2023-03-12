@@ -16,7 +16,7 @@ export class Page {
   }
 
   #setTotalScore(totalScore) {
-    if (totalScore < 1) {
+    if (totalScore < 0.1) {
       document.getElementById("total-score").innerHTML = `0`;
     } else {
       document.getElementById("total-score").innerHTML = `${totalScore.toFixed(
