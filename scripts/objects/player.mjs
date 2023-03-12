@@ -81,7 +81,7 @@ export class Player {
       isFGRevealed = true;
       upgrades[1].clearUpgradeHtml();
       upgrades[1].insertUpgradeHtml();
-      cookies.setCookies();
+      cookies = document.cookie;
     }
   }
 }
