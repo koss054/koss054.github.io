@@ -194,13 +194,16 @@ buttonEvents(player, page);
 
 // Interval functions.
 setInterval(function () {
+  player.updateScoreEveryMillisecond();
+});
+
+setInterval(function () {
   page.setValuesOnPage(player);
   player.setScorePerSecond(upgrades);
   setUpgradeTabValues(player, page, upgrades);
 }, 100);
 
 setInterval(function () {
-  player.updateScoreEverySecond();
   player.revealUpgrades(upgrades, cookies);
   upgradeItemButtonEvents(player, page, upgrades);
 }, 1000); // Updates the socre every second, depending on the current score per second.

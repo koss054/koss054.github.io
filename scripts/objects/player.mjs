@@ -50,9 +50,9 @@ export class Player {
     this.scorePerSecond = totalSPS;
   }
 
-  updateScoreEverySecond() {
-    this.totalScore += this.scorePerSecond;
-    this.lifetimeScore += this.scorePerSecond;
+  updateScoreEveryMillisecond() {
+    this.totalScore += this.scorePerSecond / 100;
+    this.lifetimeScore += this.scorePerSecond / 100;
   }
 
   setInitialUpgradesHtml(upgrades) {
