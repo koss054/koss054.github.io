@@ -1,3 +1,10 @@
+// Temporary solution.
+const root = document.querySelector(":root");
+const rootStyle = getComputedStyle(root);
+
+// Set root var value:
+// root.style.setProperty("--failed-background-color", "purple");
+
 // Page object.
 export class Page {
   constructor(cookies) {
@@ -52,7 +59,8 @@ export class Page {
   }
 
   guessedNumber(secretNumber) {
-    document.querySelector("body").style.background = "#60b347";
+    document.querySelector("body").style.background =
+      rootStyle.getPropertyValue("--guessed-background-color");
     document.querySelector(".number").style.width = "30rem";
     document.querySelector(".btn.check").style.display = "none";
     document.querySelector(".btn.again").style.display = "inline-block";
@@ -79,7 +87,8 @@ export class Page {
   }
 
   outOfScore() {
-    document.querySelector("body").style.background = "#ab263a";
+    document.querySelector("body").style.background =
+      rootStyle.getPropertyValue("--failed-background-color");
     document.querySelector(".btn.check").style.display = "none";
     document.querySelector(".btn.again").style.display = "inline-block";
     document.querySelector(".number").innerHTML = "X";

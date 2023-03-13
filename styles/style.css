@@ -1,5 +1,15 @@
 @import url("https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap");
 
+/* Variables */
+:root {
+  --accent-color: #eee;
+  --main-dark-color: #222;
+  --button-hover-color: #ccc;
+  --item-description-color: rgb(158, 158, 158);
+  --guessed-background-color: #60b347;
+  --failed-background-color: #ab263a;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -19,21 +29,20 @@ html {
 
 body {
   font-family: "Press Start 2P", sans-serif;
-  color: #eee;
-  background-color: #222;
-  /* background-color: #60b347; */
+  color: var(--accent-color);
+  background-color: var(--main-dark-color);
 }
 
 /* LAYOUT */
 header {
   position: relative;
   height: 35vh;
-  border-bottom: 7px solid #eee;
+  border-bottom: 7px solid var(--accent-color);
 }
 
 main {
   height: 65vh;
-  color: #eee;
+  color: var(--accent-color);
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -67,10 +76,13 @@ h1 {
   transform: translate(-50%, -50%);
 }
 
-header h3 {
+header button.profile {
+  font-size: 12px;
   position: absolute;
   top: 2rem;
   left: 2rem;
+  color: black;
+  background-color: var(--accent-color);
 }
 
 footer p {
@@ -82,16 +94,12 @@ p#message {
   line-height: 4rem;
 }
 
-.t-logo {
-  color: cornflowerblue;
-}
-
 .hidden {
   display: none;
 }
 
 .number {
-  background: #eee;
+  background: var(--accent-color);
   color: #333;
   font-size: 6rem;
   width: 15rem;
@@ -157,7 +165,7 @@ p#message {
 
 #guess {
   background: none;
-  border: 4px solid #eee;
+  border: 4px solid var(--accent-color);
   font-family: inherit;
   color: inherit;
   font-size: 5rem;
@@ -170,8 +178,8 @@ p#message {
 
 .btn {
   border: none;
-  background-color: #eee;
-  color: #222;
+  background-color: var(--accent-color);
+  color: var(--main-dark-color);
   font-size: 2rem;
   font-family: inherit;
   padding: 2rem 3rem;
@@ -179,7 +187,7 @@ p#message {
 }
 
 .btn:hover {
-  background-color: #ccc;
+  background-color: var(--button-hover-color);
 }
 
 .btn.upgrade {
@@ -226,7 +234,7 @@ p#message {
   transform: translate(-50%, -50%);
   width: 90%;
   height: 90%;
-  background-color: #222;
+  background-color: var(--main-dark-color);
   padding: 6rem;
   padding-top: 30px;
   border-radius: 5px;
@@ -235,7 +243,7 @@ p#message {
 }
 
 .upgrade-item {
-  border: 4px solid #eee;
+  border: 4px solid var(--accent-color);
   padding: 2rem;
   width: 90%;
   height: 14rem;
@@ -261,7 +269,7 @@ p#message {
   font-size: 12px;
   line-height: 2rem;
   margin-top: 1rem;
-  color: rgb(158, 158, 158);
+  color: var(--item-description-color);
 }
 
 .item-button {
