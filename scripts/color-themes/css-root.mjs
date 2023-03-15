@@ -1,8 +1,14 @@
 // Set root var value:
 // root.style.setProperty("--failed-background-color", "purple");
+import { DarkTheme } from "./dark-color-theme.mjs";
 
 export class Root {
+  #varTextColor = "--text-color";
+  #varAccentColor = "--accent-color";
+  #varBorderColor = "--border-color";
   #varMainDarkColor = "--main-dark-color";
+  #varButtonTextColor = "--button-text-color";
+  #varButtonHoverColor = "--button-hover-color";
   #varGuessedBgColor = "--guessed-background-color";
   #varFailedBgColor = "--failed-background-color";
 
@@ -32,5 +38,33 @@ export class Root {
       this.#varFailedBgColor
     );
     this.#bodyElement.style.background = faiedBgColor;
+  }
+
+  applyDarkTheme() {
+    const darkTheme = new DarkTheme();
+
+    this.root.style.setProperty(this.#varTextColor, darkTheme.textColor);
+    this.root.style.setProperty(this.#varAccentColor, darkTheme.accentColor);
+    this.root.style.setProperty(this.#varBorderColor, darkTheme.borderColor);
+
+    this.root.style.setProperty(
+      this.#varButtonTextColor,
+      darkTheme.buttonTextColor
+    );
+
+    this.root.style.setProperty(
+      this.#varButtonHoverColor,
+      darkTheme.buttonHoverColor
+    );
+
+    this.root.style.setProperty(
+      this.#varGuessedBgColor,
+      darkTheme.guessedBgColor
+    );
+
+    this.root.style.setProperty(
+      this.#varFailedBgColor,
+      darkTheme.failedBgColor
+    );
   }
 }
