@@ -1,6 +1,4 @@
 import { Root } from "../color-themes/css-root.mjs";
-// Set root var value:
-// root.style.setProperty("--failed-background-color", "purple");
 
 // Page object.
 export class Page {
