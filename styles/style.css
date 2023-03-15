@@ -3,6 +3,7 @@
 /* Variables */
 :root {
   --text-color: #eee;
+  --border-color: #eee;
   --accent-color: #eee;
   --main-dark-color: #222;
   --button-text-color: #222;
@@ -39,7 +40,7 @@ body {
 header {
   position: relative;
   height: 35vh;
-  border-bottom: 7px solid var(--accent-color);
+  border-bottom: 7px solid var(--border-color);
 }
 
 main {
@@ -100,7 +101,7 @@ p#message {
 
 .number {
   background: var(--accent-color);
-  color: var(--main-dark-color);
+  color: var(--button-text-color);
   font-size: 6rem;
   width: 15rem;
   padding: 3rem 0rem;
@@ -165,7 +166,7 @@ p#message {
 
 #guess {
   background: none;
-  border: 4px solid var(--accent-color);
+  border: 4px solid var(--border-color);
   font-family: inherit;
   color: inherit;
   font-size: 5rem;
