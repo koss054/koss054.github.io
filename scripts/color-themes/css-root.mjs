@@ -1,3 +1,6 @@
+// Set root var value:
+// root.style.setProperty("--failed-background-color", "purple");
+
 export class Root {
   #varMainDarkColor = "--main-dark-color";
   #varGuessedBgColor = "--guessed-background-color";
