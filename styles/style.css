@@ -2,6 +2,7 @@
 
 /* Variables */
 :root {
+  --text-color: #eee;
   --accent-color: #eee;
   --main-dark-color: #222;
   --button-text-color: #222;
@@ -30,7 +31,7 @@ html {
 
 body {
   font-family: "Press Start 2P", sans-serif;
-  color: var(--accent-color);
+  color: var(--text-color);
   background-color: var(--main-dark-color);
 }
 
@@ -43,7 +44,7 @@ header {
 
 main {
   height: 65vh;
-  color: var(--accent-color);
+  color: var(--text-color);
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -99,7 +100,7 @@ p#message {
 
 .number {
   background: var(--accent-color);
-  color: #333;
+  color: var(--main-dark-color);
   font-size: 6rem;
   width: 15rem;
   padding: 3rem 0rem;
