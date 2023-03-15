@@ -220,7 +220,7 @@ buttonEvents(player, page);
 // Interval functions.
 setInterval(function () {
   player.updateScoreEveryMillisecond();
-});
+}, 10);
 
 setInterval(function () {
   page.setValuesOnPage(player);
