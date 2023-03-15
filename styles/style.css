@@ -4,6 +4,7 @@
 :root {
   --accent-color: #eee;
   --main-dark-color: #222;
+  --button-text-color: #222;
   --button-hover-color: #ccc;
   --item-description-color: rgb(158, 158, 158);
   --guessed-background-color: #60b347;
@@ -179,7 +180,7 @@ p#message {
 .btn {
   border: none;
   background-color: var(--accent-color);
-  color: var(--main-dark-color);
+  color: var(--button-text-color);
   font-size: 2rem;
   font-family: inherit;
   padding: 2rem 3rem;
