@@ -1,5 +1,6 @@
 // Set root var value:
 // root.style.setProperty("--failed-background-color", "purple");
+import { MainTheme } from "./main-color-theme.mjs";
 import { DarkTheme } from "./dark-color-theme.mjs";
 
 export class Root {
@@ -38,6 +39,36 @@ export class Root {
       this.#varFailedBgColor
     );
     this.#bodyElement.style.background = faiedBgColor;
+  }
+
+  // TO DO: Figure out how to make interfaces, and have only one method for switching themes.
+  // e.g. applyTheme(ITheme theme)
+  applyMainTheme() {
+    const mainTheme = new MainTheme();
+
+    this.root.style.setProperty(this.#varTextColor, mainTheme.textColor);
+    this.root.style.setProperty(this.#varAccentColor, mainTheme.accentColor);
+    this.root.style.setProperty(this.#varBorderColor, mainTheme.borderColor);
+
+    this.root.style.setProperty(
+      this.#varButtonTextColor,
+      mainTheme.buttonTextColor
+    );
+
+    this.root.style.setProperty(
+      this.#varButtonHoverColor,
+      mainTheme.buttonHoverColor
+    );
+
+    this.root.style.setProperty(
+      this.#varGuessedBgColor,
+      mainTheme.guessedBgColor
+    );
+
+    this.root.style.setProperty(
+      this.#varFailedBgColor,
+      mainTheme.failedBgColor
+    );
   }
 
   applyDarkTheme() {

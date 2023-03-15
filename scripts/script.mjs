@@ -6,9 +6,13 @@ import { Page } from "./objects/page.mjs";
 import { SimpleAlgorithmBuilder } from "./builders/simple-algorithm-builder.mjs";
 import { FreelanceGuesserBuilder } from "./builders/freelance-guesser-builder.mjs";
 
+// Root import.
+import { Root } from "./color-themes/css-root.mjs";
+
 // Cookie import.
 import { Cookie } from "./cookies/cookies.mjs";
 
+// TO DO: Move functions to separate files so script.mjs is cleaner.
 // Button events function.
 const buttonEvents = function (player, page) {
   // Button elements.
@@ -159,6 +163,26 @@ function setUpgradeTabValues(player, page, upgrades) {
   }
 }
 
+// Theme functions.
+function setThemeEvents() {
+  const root = new Root();
+
+  const lightThemeBtn = document.getElementById("light-theme-btn");
+  const darkThemeBtn = document.getElementById("dark-theme-btn");
+
+  lightThemeBtn.addEventListener("click", function () {
+    root.applyDarkTheme();
+    lightThemeBtn.classList.add("hidden");
+    darkThemeBtn.classList.remove("hidden");
+  });
+
+  darkThemeBtn.addEventListener("click", function () {
+    root.applyMainTheme();
+    lightThemeBtn.classList.remove("hidden");
+    darkThemeBtn.classList.add("hidden");
+  });
+}
+
 // Initializing player.
 const player = new Player();
 
@@ -186,6 +210,7 @@ if (document.cookie.length > 0) {
 const page = new Page(cookies);
 player.setInitialUpgradesHtml(upgrades);
 setUpgradeTabValues(player, page, upgrades);
+setThemeEvents();
 
 // Page functions.
 shortcutButtonsEvents();
